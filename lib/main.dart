@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 import 'quiz_brain.dart';
 
 QuizBrain quizBrain = QuizBrain();
@@ -38,7 +39,66 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
+  int score = 0;
   List<Icon> scoreKeeper = [];
+
+  void showAlert() {
+    Alert(
+      context: context,
+      type: AlertType.none,
+      style: AlertStyle(
+        backgroundColor: Colors.black,
+        animationType: AnimationType.grow,
+        titleStyle: TextStyle(
+          color: Colors.white,
+        ),
+        descStyle: TextStyle(
+          color: Colors.white,
+        ),
+      ),
+      title: "Bingo!",
+      desc: "You have reached the end of quiz.\n Your score: $score / ${quizBrain.getLengthOfQuestions()}",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "Reset Quiz",
+            style: TextStyle(color: Colors.white, fontSize: 20),
+          ),
+          onPressed: () {
+            setState(() {
+              quizBrain.resetQuestions();
+              scoreKeeper.clear();
+              score = 0;
+              Navigator.pop(context);
+            });
+          },
+          width: 120,
+        )
+      ],
+    ).show();
+  }
+
+  void checkAnswer(bool userAnswer) {
+    setState(() {
+      if (quizBrain.getCorrectAnswer() == userAnswer) {
+        score++;
+        scoreKeeper.add(Icon(
+          Icons.check,
+          color: Colors.green,
+        ));
+      } else {
+        scoreKeeper.add(Icon(
+          Icons.close,
+          color: Colors.red,
+        ));
+      }
+      if (quizBrain.questionsExhausted() == false) {
+        quizBrain.nextQuestion();
+      } else {
+        showAlert();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -46,6 +106,9 @@ class _QuizPageState extends State<QuizPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
+          Row(
+            children: scoreKeeper,
+          ),
           Expanded(
             flex: 5,
             child: Padding(
@@ -67,20 +130,7 @@ class _QuizPageState extends State<QuizPage> {
               padding: const EdgeInsets.all(15.0),
               child: FlatButton(
                 onPressed: () {
-                  if (quizBrain.getCorrectAnswer() == true) {
-                    scoreKeeper.add(Icon(
-                      Icons.check,
-                      color: Colors.green,
-                    ));
-                  } else {
-                    scoreKeeper.add(Icon(
-                      Icons.close,
-                      color: Colors.red,
-                    ));
-                  }
-                  setState(() {
-                    quizBrain.nextQuestion();
-                  });
+                  checkAnswer(true);
                 },
                 color: Colors.green,
                 child: Text(
@@ -98,20 +148,7 @@ class _QuizPageState extends State<QuizPage> {
               padding: const EdgeInsets.all(15.0),
               child: FlatButton(
                 onPressed: () {
-                  if (quizBrain.getCorrectAnswer() == false) {
-                    scoreKeeper.add(Icon(
-                      Icons.check,
-                      color: Colors.green,
-                    ));
-                  } else {
-                    scoreKeeper.add(Icon(
-                      Icons.close,
-                      color: Colors.red,
-                    ));
-                  }
-                  setState(() {
-                    quizBrain.nextQuestion();
-                  });
+                  checkAnswer(false);
                 },
                 color: Colors.red,
                 child: Text(
@@ -124,9 +161,7 @@ class _QuizPageState extends State<QuizPage> {
               ),
             ),
           ),
-          Row(
-            children: scoreKeeper,
-          )
+
         ],
       ),
     );
