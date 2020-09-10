@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:audioplayers/audio_cache.dart';
 import 'quiz_brain.dart';
+
 
 QuizBrain quizBrain = QuizBrain();
 void main() {
@@ -95,7 +97,10 @@ class _QuizPageState extends State<QuizPage> {
       if (quizBrain.questionsExhausted() == false) {
         quizBrain.nextQuestion();
       } else {
+        final player = AudioCache();
+        player.play('tada.mp3');
         showAlert();
+
       }
     });
   }
