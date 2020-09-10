@@ -3,8 +3,7 @@ import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:audioplayers/audio_cache.dart';
 import 'quiz_brain.dart';
 
-
-QuizBrain quizBrain = QuizBrain();
+QuizBrain quizBrain = QuizBrain();        //Object of QuizBrain class
 void main() {
   runApp(Quizzler());
 }
@@ -33,7 +32,7 @@ class Quizzler extends StatelessWidget {
       ),
     );
   }
-}
+}   //stless widget
 
 class QuizPage extends StatefulWidget {
   @override
@@ -41,8 +40,8 @@ class QuizPage extends StatefulWidget {
 }
 
 class _QuizPageState extends State<QuizPage> {
-  int score = 0;
-  List<Icon> scoreKeeper = [];
+  int score = 0;                  //current scorevalue
+  List<Icon> scoreKeeper = [];    //list of icons to show in the UI
 
   void showAlert() {
     Alert(
@@ -78,7 +77,7 @@ class _QuizPageState extends State<QuizPage> {
         )
       ],
     ).show();
-  }
+  }         //alert box to show on completion of quiz
 
   void checkAnswer(bool userAnswer) {
     setState(() {
@@ -103,7 +102,7 @@ class _QuizPageState extends State<QuizPage> {
 
       }
     });
-  }
+  }   //function to check the answers
 
   @override
   Widget build(BuildContext context) {

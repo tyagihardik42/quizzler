@@ -1,16 +1,17 @@
 import 'question.dart';
 
+//constructor  to shuffle questions at the beginning
 class QuizBrain {
   QuizBrain() {
     _questionBank.shuffle();
   }
 
-  int _questionNumber = 0;
-  List<Question> _questionBank = [
-    Question('Some cats are actually allergic to humans', true),
-    Question('You can lead a cow down stairs but not up stairs.', false),
+  int _questionNumber = 0;                      //variable to track current question number
+  List<Question> _questionBank = [             //List of questions of Questions class
+    Question('China has the highest population on earth.', true),
+    Question('Aeroplanes were invented before the trains.', false),
     Question('Approximately one quarter of human bones are in the feet.', true),
-    Question('A slug\'s blood is green.', true),
+    Question('Only male peacocks have shiny feathers.', true),
     Question('Buzz Aldrin\'s mother\'s maiden name was \"Moon\".', true),
     Question('It is illegal to pee in the Ocean in Portugal.', true),
     Question(
@@ -33,23 +34,23 @@ class QuizBrain {
         'In West Virginia, USA, if you accidentally hit an animal with your car, you are free to take it home to eat.',
         true),
   ];
-
+//returns the length of question bank ie number of questions
   int getLengthOfQuestions() {
     return _questionBank.length;
   }
-
+//returns the question string
   String getQuestionText() {
     return _questionBank[_questionNumber].questionText;
   }
-
+//returns the correct answer
   bool getCorrectAnswer() {
     return _questionBank[_questionNumber].questionAnswer;
   }
-
+//increment iterator to next question
   void nextQuestion() {
     _questionNumber++;
   }
-
+//check if the questions are exhausted
   bool questionsExhausted() {
     if (_questionNumber < _questionBank.length - 1) {
       return false;
@@ -57,7 +58,7 @@ class QuizBrain {
       return true;
     }
   }
-
+//reset the question bank by shuffling the questions and resetting the iterator
   void resetQuestions() {
     _questionNumber = 0;
     _questionBank.shuffle();
